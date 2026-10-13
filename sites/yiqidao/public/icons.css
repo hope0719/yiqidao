@@ -1,0 +1,37 @@
+/* 图标字体：全部同源托管，不使用 fonts.gstatic.com。
+ *
+ * 修复自 2026-10-13（与仓库 web/icons.css 同一补丁）。原文件的坑：
+ * 本地 assets/symbols.ttf 只声明了 font-weight: 100，
+ * 而下面 .material-symbols-outlined 用的是 font-weight: normal（=400），
+ * 于是 400 字重命中的是 fonts.gstatic.com 那 6 条远程 @font-face——
+ * 图标一直在翻墙拉 Google 字体：国内关闭代理时会掉成
+ * "train"/"handshake" 这样的裸文字，也违反执行书第 8 节
+ * 「字体图标同源、不引入境外 CDN」。
+ *
+ * assets/symbols.ttf 实为 TrueType 可变字体（magic 00 01 00 00，带 wght 轴），
+ * 故用一条 font-weight: 100 700 的字重区间覆盖全部字重。
+ * 文件原名 symbols.woff2 名不副实，已按真实格式改名为 .ttf。
+ */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  src: url(assets/symbols.ttf) format('truetype');
+  font-display: swap;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

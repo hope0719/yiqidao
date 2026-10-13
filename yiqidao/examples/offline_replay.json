@@ -1,0 +1,74 @@
+{
+  "_comment": "示例：3 位成员从北京/上海/广州出发，候选城市由用户指定为杭州、厦门、长沙。2 晚短途，2 间房。所有日期为未来日期，today 显式固定以便复现。",
+  "_data_source": "SYNTHETIC：虚构测试数据，不可预订，不代表真实报价或库存",
+  "today": "2026-10-10",
+  "nights": 2,
+  "candidates": [
+    "杭州"
+  ],
+  "team_budget": 9000,
+  "min_common_hours": 24,
+  "rooming": {
+    "rooms": 2,
+    "nights": 2,
+    "assignments": {
+      "小明": "R1",
+      "小红": "R2",
+      "小刚": "R2"
+    },
+    "note": "小明单独一间；小红与小刚一间"
+  },
+  "members": [
+    {
+      "name": "小明",
+      "origin_city": "北京",
+      "dep_date_start": "2026-10-20",
+      "dep_date_end": "2026-10-20",
+      "ret_date_start": "2026-10-22",
+      "ret_date_end": "2026-10-22",
+      "budget": 3000,
+      "max_oneway_minutes": 600,
+      "modes": [
+        "flight"
+      ]
+    },
+    {
+      "name": "小红",
+      "origin_city": "上海",
+      "dep_date_start": "2026-10-20",
+      "dep_date_end": "2026-10-20",
+      "ret_date_start": "2026-10-22",
+      "ret_date_end": "2026-10-22",
+      "budget": 2000,
+      "max_oneway_minutes": 480,
+      "modes": [
+        "flight"
+      ]
+    },
+    {
+      "name": "小刚",
+      "origin_city": "广州",
+      "dep_date_start": "2026-10-20",
+      "dep_date_end": "2026-10-20",
+      "ret_date_start": "2026-10-22",
+      "ret_date_end": "2026-10-22",
+      "budget": 2500,
+      "max_oneway_minutes": 600,
+      "modes": [
+        "flight"
+      ]
+    }
+  ],
+  "arrival_buffer_minutes": 0,
+  "departure_buffer_minutes": 0,
+  "hotel_quote": {
+    "confirmed": true,
+    "hotel_name": "虚构示例酒店（不可预订）",
+    "city": "杭州",
+    "room_price_per_night": 300,
+    "max_guests_per_room": 2,
+    "check_in_date": "2026-10-20",
+    "check_out_date": "2026-10-22",
+    "source": "虚构测试确认，不代表真实报价"
+  }
+}

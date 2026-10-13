@@ -1,0 +1,26 @@
+{
+  "endpoint": "search-hotel",
+  "params": {
+    "dest_name": "杭州",
+    "check_in_date": "2026-10-20",
+    "check_out_date": "2026-10-22",
+    "sort": "price_asc",
+    "max_price": 675
+  },
+  "recorded_at": "2026-10-10T12:00:00+08:00",
+  "ok": true,
+  "empty": false,
+  "failure": null,
+  "failure_kind": null,
+  "raw_message": "SYNTHETIC TEST DATA",
+  "system_message": null,
+  "items": [
+    {
+      "name": "虚构示例酒店（不可预订）",
+      "price": "300",
+      "rate": "4.5",
+      "address": "虚构地址",
+      "shId": "DEMO-HOTEL"
+    }
+  ]
+}

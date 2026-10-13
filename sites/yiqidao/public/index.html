@@ -1,0 +1,839 @@
+<!-- 一起到 - 异地好友会合旅行规划系统 -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>一起到 TogetherArrival</title>
+
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link rel="stylesheet" href="styles.css"/><script src="base.js" defer></script><link rel="stylesheet" href="icons.css"/><link rel="stylesheet" href="product.css"><script src="product.js" defer></script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4"><div class="flex items-center gap-6"><a class="flex items-center gap-3" data-path="plan" href="#"><span class="brand-mark material-symbols-outlined">hub</span><span class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">一起到</span></a><div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span>💡 示例数据体验模式</span></div></div><nav class="hidden md:flex items-center gap-1" data-active-classes="bg-primary text-on-primary rounded-lg font-medium shadow-sm"><a aria-current="page" class="px-3.5 py-2 transition-colors flex items-center gap-1.5 bg-primary text-on-primary rounded-lg font-medium shadow-sm" data-path="plan" href="#"><span>开始规划</span></a><a class="px-3.5 py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-1.5" data-path="my-plans" href="#"><span>我的方案</span><span class="px-1.5 py-0.2 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm rounded-full">2</span></a><a class="px-3.5 py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="help" href="#"><span>使用帮助</span></a></nav><div class="flex items-center gap-3"><button class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-outline text-[18px]">location_city</span><span>常居地: 上海</span><span class="material-symbols-outlined text-outline text-[16px]">expand_more</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Interactive View Switcher Bar (Top Sub-header Navigation) -->
+<aside aria-label="原型视图控制" class="sticky top-16 z-40 w-full bg-surface-container-lowest/95 backdrop-blur-md shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-2.5 flex items-center justify-between gap-4 overflow-x-auto">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md shrink-0">
+<span class="material-symbols-outlined text-[18px] text-primary">alt_route</span>
+<span class="font-semibold text-on-surface">原型视图切换:</span>
+</div>
+<div class="flex items-center gap-1.5 p-1 bg-surface-container-low rounded-xl shrink-0" id="view-tabs">
+<button class="px-3.5 py-1.5 rounded-lg font-body-sm text-body-sm transition-all duration-200 bg-primary text-on-primary font-medium shadow-sm flex items-center gap-1.5" id="tab-btn-1" onclick="switchView(1)" type="button">
+<span>1. 首页与规划表单</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg font-body-sm text-body-sm transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center gap-1.5" id="tab-btn-2" onclick="switchView(2)" type="button">
+<span>2. 查询中</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg font-body-sm text-body-sm transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center gap-1.5" id="tab-btn-3" onclick="switchView(3)" type="button">
+<span>3. 城市比较结果</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg font-body-sm text-body-sm transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center gap-1.5" id="tab-btn-4" onclick="switchView(4)" type="button">
+<span>4. 方案详情(杭州)</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg font-body-sm text-body-sm transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center gap-1.5" id="tab-btn-5" onclick="switchView(5)" type="button">
+<span>5. 我的方案</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</button>
+</div>
+<div class="hidden xl:flex items-center gap-2 font-label-sm text-label-sm text-outline shrink-0">
+<span class="material-symbols-outlined text-[16px] text-secondary">tips_and_updates</span>
+<span>可点击按钮按业务流体验</span>
+</div>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- VIEW 1: 首页与规划表单 -->
+<!-- ========================================== -->
+<section class="w-full flex flex-col items-center py-10 px-4 sm:px-6 lg:px-12 transition-opacity duration-300" id="view-1">
+<div class="max-w-4xl w-full flex flex-col items-center text-center mb-10">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary-fixed/40 text-on-secondary-fixed-variant font-label-md text-label-md mb-6 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>异地好友会合算法已升级 v2.4 · 示例数据体验</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight font-semibold max-w-2xl mb-4">
+        从不同城市出发，<br class="hidden sm:inline"/>一起到同一个地方。
+      </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+        智能权衡各地交通耗时、到达时差与周末预算，算出让每个人都轻松的聚会之城。
+      </p>
+<!-- 自然语言智能解析输入条 -->
+<div class="w-full mt-8 bg-surface-container-lowest rounded-2xl p-3 shadow-md">
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+<div class="flex items-center gap-2 px-3 flex-1">
+<span class="material-symbols-outlined text-primary text-[22px]">smart_toy</span>
+<input class="w-full bg-transparent text-on-surface font-body-md text-body-md focus:outline-none placeholder:text-outline" id="nlp-input" placeholder="用一句话描述，例如：我在北京，阿泽在上海，周五晚出发..." type="text" value="我在北京，朋友在上海，想一起出去玩两晚，每人预算3000元。"/>
+</div>
+<button class="px-5 py-3 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-body-sm text-body-sm font-medium flex items-center justify-center gap-2 transition-all shadow-sm" onclick="quickFillPrompt()" type="button">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+<span>一键解析并填充</span>
+</button>
+</div>
+<div class="flex items-center flex-wrap gap-2 pt-3 px-2">
+<span class="font-label-sm text-label-sm text-outline">热门组合示例:</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" onclick="setPreset('京沪周末聚')" type="button"># 京沪周末聚</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" onclick="setPreset('四城毕业游')" type="button"># 四城毕业游</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" onclick="setPreset('广深成渝会合')" type="button"># 广深成渝会合</button>
+</div>
+</div>
+</div>
+<!-- 规划表单核心卡片 -->
+<div class="max-w-4xl w-full bg-surface-container-lowest rounded-2xl p-6 sm:p-10 shadow-lg space-y-8">
+<!-- 成员列表板块 -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-2.5 h-6 bg-primary rounded-full"></div>
+<h2 class="font-title-md text-title-md text-on-surface font-semibold">出行成员 (2/4)</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline">支持2~4位好友多地会合</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- 成员 1 -->
+<div class="bg-surface-container-low rounded-xl p-5 relative overflow-hidden group">
+<div class="flex items-center justify-between mb-3">
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-semibold">成员 1 · 发起人</span>
+<span class="material-symbols-outlined text-outline text-[18px]">badge</span>
+</div>
+<div class="grid grid-cols-2 gap-3 mb-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">称呼</label>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none" type="text" value="小林 (我)"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">出发城市</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none pl-8" type="text" value="北京"/>
+<span class="material-symbols-outlined text-primary absolute left-2 top-2 text-[18px]">location_on</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">单人预算上限</label>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none" type="text" value="¥3,500"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">交通偏好</label>
+<select class="w-full bg-surface-container-lowest rounded-lg px-2.5 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option>高铁优先 (避免红眼)</option>
+<option>飞机优先 (航程超3h)</option>
+<option>时间优先 (最快到达)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- 成员 2 -->
+<div class="bg-surface-container-low rounded-xl p-5 relative overflow-hidden group">
+<div class="flex items-center justify-between mb-3">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">成员 2</span>
+<button class="text-outline hover:text-error transition-colors" title="移除成员" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-3 mb-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">称呼</label>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none" type="text" value="阿泽"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">出发城市</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none pl-8" type="text" value="上海"/>
+<span class="material-symbols-outlined text-primary absolute left-2 top-2 text-[18px]">location_on</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">单人预算上限</label>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none" type="text" value="¥3,000"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">交通偏好</label>
+<select class="w-full bg-surface-container-lowest rounded-lg px-2.5 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option>高铁 / 动车均可</option>
+<option>高铁二等座直达</option>
+<option>均可接受</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-3.5 w-full py-3 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low text-primary font-body-sm text-body-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>添加成员 (当前2人，上限4人)</span>
+</button>
+</div>
+<!-- 共同会合条件 -->
+<div class="pt-4 space-y-6">
+<div class="flex items-center gap-2.5">
+<div class="w-2.5 h-6 bg-secondary-container rounded-full"></div>
+<h2 class="font-title-md text-title-md text-on-surface font-semibold">共同行程与偏好</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- 日期 -->
+<div class="bg-surface-container-low rounded-xl p-4">
+<div class="flex items-center justify-between mb-2">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+<span>行程时间</span>
+</label>
+<span class="font-label-sm text-label-sm text-secondary font-medium">周五晚出发 · 2晚3天</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none text-center" type="text" value="2025-05-16"/>
+<span class="text-outline text-body-sm">至</span>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3 py-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none text-center" type="text" value="2025-05-18"/>
+</div>
+</div>
+<!-- 最少共同停留时间 -->
+<div class="bg-surface-container-low rounded-xl p-4">
+<div class="flex items-center justify-between mb-2">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
+<span>最少共同停留时间</span>
+</label>
+<span class="font-label-sm text-label-sm text-primary font-semibold">≥ 42 小时</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-full accent-primary" max="55" min="30" type="range" value="42"/>
+<span class="font-label-md text-label-md text-on-surface-variant shrink-0">确保相聚充分</span>
+</div>
+</div>
+</div>
+<!-- 候选会合意向城市 -->
+<div>
+<label class="block font-body-sm text-body-sm font-semibold text-on-surface mb-2.5">
+            候选城市偏好 (算法将优先在此范围内加权计算)
+          </label>
+<div class="flex flex-wrap items-center gap-2.5">
+<button class="px-4 py-2 rounded-xl bg-primary text-on-primary font-body-sm text-body-sm flex items-center gap-2 shadow-sm" type="button">
+<span>杭州</span>
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<button class="px-4 py-2 rounded-xl bg-primary text-on-primary font-body-sm text-body-sm flex items-center gap-2 shadow-sm" type="button">
+<span>南京</span>
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<button class="px-4 py-2 rounded-xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-1.5 transition-colors" type="button">
+<span>苏州</span>
+</button>
+<button class="px-4 py-2 rounded-xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-1.5 transition-colors" type="button">
+<span>武汉</span>
+</button>
+<button class="px-4 py-2 rounded-xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-1.5 transition-colors" type="button">
+<span>黄山</span>
+</button>
+<button class="px-3.5 py-2 rounded-xl bg-surface-container-lowest text-primary font-body-sm text-body-sm hover:bg-surface-container-low transition-colors flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>自定义添加</span>
+</button>
+</div>
+</div>
+<!-- 可折叠更多条件 -->
+<details class="group bg-surface-container-low rounded-xl p-4">
+<summary class="flex items-center justify-between cursor-pointer list-none font-body-sm text-body-sm font-medium text-on-surface">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<span>更多精细要求 (中转次数、发车时段、住宿档次)</span>
+</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-[20px]">expand_more</span>
+</summary>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 mt-2">
+<div>
+<label class="block font-label-sm text-label-sm text-outline mb-1.5">中转容忍度</label>
+<select class="w-full bg-surface-container-lowest rounded-lg p-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option>0次中转 (全员直达)</option>
+<option>允许最多1次同站换乘</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-outline mb-1.5">周五出发时段偏好</label>
+<select class="w-full bg-surface-container-lowest rounded-lg p-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option>18:00 之后 (下班赶车)</option>
+<option>全天任意时段</option>
+<option>14:00 - 18:00 之间</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-outline mb-1.5">住宿标准偏好</label>
+<select class="w-full bg-surface-container-lowest rounded-lg p-2 text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option>4星/舒适型以上 (含双早)</option>
+<option>高档豪华型</option>
+<option>经济快捷型</option>
+</select>
+</div>
+</div>
+</details>
+</div>
+<!-- 提交按钮 -->
+<div class="pt-2">
+<button class="w-full py-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-3 transition-all transform active:scale-[0.99] shadow-md" onclick="startCalculatingFlow()" type="button">
+<span class="material-symbols-outlined text-[24px]">hub</span>
+<span>帮我们找会合城市 (开始比较)</span>
+</button>
+<p class="text-center font-label-sm text-label-sm text-outline mt-3">
+          当前为设计示例体验，未连接实时交通、酒店或价格查询接口
+        </p>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- VIEW 2: 查询中 (Calculating State) -->
+<!-- ========================================== -->
+<section class="hidden w-full flex flex-col items-center py-12 px-4 sm:px-6 lg:px-12 transition-opacity duration-300" id="view-2">
+<div class="max-w-2xl w-full flex flex-col items-center">
+<!-- 条件回显条 -->
+<div class="w-full bg-surface-container-lowest rounded-2xl p-4 shadow-sm mb-8 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">sync_alt</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold">北京 (小林) ⇄ 上海 (阿泽)</div>
+<div class="font-label-md text-label-md text-on-surface-variant">5月16日-18日 · 预算¥3,000-3,500/人 · 候选: 杭州、南京</div>
+</div>
+</div>
+<button class="font-label-md text-label-md text-primary hover:underline px-2 py-1" onclick="switchView(1)" type="button">修改</button>
+</div>
+<!-- 计算动画卡片 -->
+<div class="w-full bg-surface-container-lowest rounded-3xl p-8 sm:p-10 shadow-lg relative overflow-hidden">
+<!-- 进度条 -->
+<div class="relative w-full h-2.5 bg-surface-container rounded-full overflow-hidden mb-8">
+<div class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-700 w-2/3 animate-pulse"></div>
+</div>
+<div class="text-center mb-8">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-fixed/50 text-primary mb-4 shadow-inner">
+<span class="material-symbols-outlined text-[32px] animate-spin">progress_activity</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold mb-2">正在测算两地最优会合网络</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">正在展示示例流程，未调用实时交通或住宿接口</p>
+</div>
+<!-- 详细步骤进度 -->
+<div class="space-y-4 max-w-md mx-auto mb-8 font-body-sm text-body-sm">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[20px] text-primary">check_circle</span>
+<span class="font-medium">载入设计示例时刻与票价 (已完成)</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface">
+<div class="w-5 h-5 flex items-center justify-center">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></span>
+</div>
+<span class="font-medium text-secondary">计算异地到达时差与有效相聚时长... (计算中)</span>
+</div>
+<div class="flex items-center gap-3 text-outline">
+<span class="material-symbols-outlined text-[20px]">radio_button_unchecked</span>
+<span>评估会合地周末住宿与交通总支出... (等待中)</span>
+</div>
+<div class="flex items-center gap-3 text-outline">
+<span class="material-symbols-outlined text-[20px]">radio_button_unchecked</span>
+<span>加权推荐最佳会合平衡点... (等待中)</span>
+</div>
+</div>
+<div class="pt-2 text-center">
+<button class="px-6 py-2.5 rounded-xl bg-secondary text-on-secondary font-body-sm text-body-sm font-semibold hover:opacity-90 transition-opacity shadow-sm inline-flex items-center gap-2" onclick="switchView(3)" type="button">
+<span>模拟完成，立即查看结果</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- VIEW 3: 城市比较结果 -->
+<!-- ========================================== -->
+<section class="hidden w-full flex flex-col items-center py-8 px-4 sm:px-6 lg:px-12 transition-opacity duration-300" id="view-3">
+<div class="max-w-6xl w-full">
+<!-- 汇总状态条 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 shadow-sm mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-3 flex-wrap">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md text-label-md font-semibold">会合城市多维度PK · 固定示例</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">固定示例：北京(小林) ＋ 上海(阿泽)</span>
+<span class="text-outline">|</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">5.16 - 5.18 (周五至周日)</span>
+<span class="text-outline">|</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">总预算: ¥6,000 - 6,500</span>
+</div>
+<button class="px-4 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center justify-center gap-1.5 transition-colors self-start sm:self-auto" onclick="switchView(1)" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>修改条件</span>
+</button>
+</div>
+<!-- 城市对比卡片网格 (双列 Bento Grid) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
+<!-- 城市 1: 杭州 (首推方案) -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-lg flex flex-col relative group">
+<!-- 推荐 Badge -->
+<div class="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-semibold shadow-md">
+<span class="material-symbols-outlined text-[16px]">star</span>
+<span>综合平衡首选 · 98分</span>
+</div>
+<!-- 封面图 -->
+<div class="relative w-full h-52 bg-cover bg-center" data-alt="Scenic landscape of West Lake in Hangzhou, lush green Longjing tea plantations under soft golden hour sunlight, traditional pagoda in the distance, high-end travel editorial style with rich jade green and warm ambient light." style="background-image: url('assets/photo-0.jpg')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/30"></div>
+<div class="absolute bottom-3 left-6 right-6 flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">TOP RECOMMENDATION</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-semibold">杭州 Hangzhou</h3>
+</div>
+<span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest/90 backdrop-blur font-label-sm text-label-sm text-primary font-bold">到达时差仅25分钟</span>
+</div>
+</div>
+<div class="p-6 sm:p-7 flex flex-col flex-1 space-y-6">
+<!-- 推荐理由引用 -->
+<div class="bg-surface-container-low rounded-2xl p-4">
+<p class="font-body-md text-body-md text-on-surface italic leading-relaxed">
+                “两地高铁直达班次最密集，周五傍晚均可达；到达时差仅 25 分钟，共同停留时间高达 46 小时。”
+              </p>
+</div>
+<!-- 核心数据对比指标 -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low rounded-xl p-3.5">
+<span class="block font-label-sm text-label-sm text-outline mb-1">共同有效停留时间</span>
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[20px]">timer</span>
+<span class="font-headline-sm text-headline-sm font-semibold">46h 15m</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">周五 21:08 至 周日 19:23</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3.5">
+<span class="block font-label-sm text-label-sm text-outline mb-1">已知交通费用 (两人往返)</span>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="font-headline-sm text-headline-sm font-semibold">¥1,896</span>
+<span class="font-label-sm text-label-sm text-outline">总计</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">京往返¥1252 + 沪往返¥146</span>
+</div>
+</div>
+<!-- 两人行程耗时分布 -->
+<div class="space-y-3 font-body-sm text-body-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-on-surface font-medium">小林 (北京南出发)</span>
+</div>
+<span class="font-semibold text-on-surface">4h 32m · G39 高铁直达</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-medium">阿泽 (上海虹桥出发)</span>
+</div>
+<span class="font-semibold text-on-surface">0h 58m · G7375 高铁直达</span>
+</div>
+</div>
+<!-- 辛苦度人性化提示 -->
+<div class="flex items-start gap-2.5 p-3.5 rounded-xl bg-secondary-fixed/30 text-on-secondary-fixed-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px] text-secondary shrink-0">sentiment_satisfied</span>
+<span>小林单程耗时较长 (4.5h)，系统已匹配标杆大交路复兴号宽敞席位，且周五到站后仅需等待阿泽 0 分钟即可集合。</span>
+</div>
+<!-- 住宿预估信息 -->
+<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-surface-container-high/60 font-label-sm text-label-sm text-on-surface-variant">
+<span>住宿待确认参考</span>
+<span class="font-medium text-on-surface">西湖/凤起路舒适型 约 ¥760/晚</span>
+</div>
+<!-- CTA -->
+<button class="w-full py-3.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md" onclick="switchView(4)" type="button">
+<span>查看杭州方案详情</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- 城市 2: 南京 (备选方案) -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-lg flex flex-col relative group">
+<div class="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold shadow-sm">
+<span>备选方案 · 89分</span>
+</div>
+<!-- 封面图 -->
+<div class="relative w-full h-52 bg-cover bg-center" data-alt="Nanjing city skyline with historic city wall, Qinhuai river reflection at dusk, warm street lanterns casting gentle glow, refined Chinese cultural travel destination." style="background-image: url('assets/photo-1.jpg')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/30"></div>
+<div class="absolute bottom-3 left-6 right-6 flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">ALTERNATIVE OPTION</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-semibold">南京 Nanjing</h3>
+</div>
+<span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest/90 backdrop-blur font-label-sm text-label-sm text-secondary font-bold">到达时差 1h 40m</span>
+</div>
+</div>
+<div class="p-6 sm:p-7 flex flex-col flex-1 space-y-6">
+<!-- 推荐理由引用 -->
+<div class="bg-surface-container-low rounded-2xl p-4">
+<p class="font-body-md text-body-md text-on-surface italic leading-relaxed">
+                “北京出发用时更短 (3.2h)，交通总成本略低；但两人周五到达时间相差较久，需单独候客。”
+              </p>
+</div>
+<!-- 核心数据对比指标 -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low rounded-xl p-3.5">
+<span class="block font-label-sm text-label-sm text-outline mb-1">共同有效停留时间</span>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-outline">timer</span>
+<span class="font-headline-sm text-headline-sm font-semibold">43h 30m</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">周五 21:50 至 周日 17:20</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3.5">
+<span class="block font-label-sm text-label-sm text-outline mb-1">已知交通费用 (两人往返)</span>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="font-headline-sm text-headline-sm font-semibold">¥1,640</span>
+<span class="font-label-sm text-label-sm text-outline">总计</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">京往返¥1120 + 沪往返¥270</span>
+</div>
+</div>
+<!-- 两人行程耗时分布 -->
+<div class="space-y-3 font-body-sm text-body-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-on-surface font-medium">小林 (北京南出发)</span>
+</div>
+<span class="font-semibold text-on-surface">3h 15m · G5 高铁直达</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-medium">阿泽 (上海虹桥出发)</span>
+</div>
+<span class="font-semibold text-on-surface">1h 05m · G7012 高铁直达</span>
+</div>
+</div>
+<!-- 提示 -->
+<div class="flex items-start gap-2.5 p-3.5 rounded-xl bg-surface-container text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px] text-outline shrink-0">info</span>
+<span>阿泽预计 20:10 抵达南京南，小林预计 21:50 抵达，阿泽需在车站附近等待或提前先办理入住。</span>
+</div>
+<!-- 住宿预估信息 -->
+<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-surface-container-high/60 font-label-sm text-label-sm text-on-surface-variant">
+<span>住宿待确认参考</span>
+<span class="font-medium text-on-surface">新街口商务型 约 ¥680/晚</span>
+</div>
+<!-- CTA -->
+<button class="w-full py-3.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm font-semibold flex items-center justify-center gap-2 transition-colors" onclick="alert('南京方案演示数据已就绪，当前可重点体验推荐首选【杭州方案】')" type="button">
+<span>查看南京方案详情</span>
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 底部说明 -->
+<div class="text-center font-label-sm text-label-sm text-outline">
+        标注：所有车次及价格均为 12306 示例数据，便于体验算法决策流程。真实出票请在出行平台下单。
+      </div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- VIEW 4: 方案详情 (杭州) -->
+<!-- ========================================== -->
+<section class="hidden w-full flex flex-col items-center py-6 px-4 sm:px-6 lg:px-12 transition-opacity duration-300 pb-28" id="view-4">
+<div class="max-w-5xl w-full space-y-8">
+<!-- 顶部 Banner 与概述 -->
+<div class="relative rounded-3xl overflow-hidden bg-cover bg-center shadow-lg" data-alt="West Lake in Hangzhou with morning mist, willow trees framing ancient stone bridge, soft teal and amber warm lighting, serene landscape photography." style="background-image: url('assets/photo-2.jpg')">
+<div class="absolute inset-0 bg-gradient-to-r from-on-surface/90 via-on-surface/60 to-transparent"></div>
+<div class="relative p-6 sm:p-10 text-on-primary max-w-2xl">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold mb-3">
+<span>最佳会合城市 · 综合评分 98</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-semibold mb-2">杭州双人相聚周末方案</h2>
+<p class="font-body-md text-body-md text-surface-container-low mb-4">
+            设计示例 · 北京 ⇄ 杭州 ⇄ 上海 · 2025年5月16日(周五) - 5月18日(周日)
+          </p>
+<div class="flex items-center gap-6 font-body-sm text-body-sm">
+<div>
+<span class="block text-surface-container-high font-label-sm text-label-sm">共同相聚</span>
+<span class="font-bold text-title-sm">46 小时 15 分</span>
+</div>
+<div class="w-px h-8 bg-surface-container-lowest/20"></div>
+<div>
+<span class="block text-surface-container-high font-label-sm text-label-sm">到达时差</span>
+<span class="font-bold text-title-sm">仅 25 分钟</span>
+</div>
+<div class="w-px h-8 bg-surface-container-lowest/20"></div>
+<div>
+<span class="block text-surface-container-high font-label-sm text-label-sm">已知交通</span>
+<span class="font-bold text-title-sm">¥1,896 (总)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 会合温馨提示警示条 (克制醒目) -->
+<div class="bg-secondary-fixed/30 rounded-2xl p-4 flex items-start sm:items-center gap-3 shadow-sm">
+<span class="material-symbols-outlined text-[24px] text-secondary shrink-0">handshake</span>
+<div class="flex-1 font-body-sm text-body-sm text-on-secondary-fixed-variant">
+<strong class="font-semibold">会合建议：</strong>
+          阿泽预计 20:43 抵达杭州东站，小林 21:08 抵达。建议阿泽出站后在<span class="underline font-semibold">杭州东站到达层西广场星巴克</span>小坐稍候，25分钟后两人即可汇合一同打车前往酒店。
+        </div>
+</div>
+<!-- 核心亮点：时间轴会合对齐视图 (Visual Timeline) -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 sm:p-8 shadow-md">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">route</span>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">周五傍晚会合时刻轴对齐</h3>
+</div>
+<span class="font-label-sm text-label-sm text-outline">精确到分钟的时差计算</span>
+</div>
+<div class="relative pl-6 sm:pl-8 space-y-6 before:content-[''] before:absolute before:left-2.5 sm:before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high">
+<!-- 节点 1 -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-6 sm:-left-8 mt-1.5 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">18:30 · 北京出发</span>
+<p class="font-body-md text-body-md text-on-surface font-medium">小林乘 G39 次复兴号从北京南站出发</p>
+</div>
+<span class="font-label-sm text-label-sm text-outline">历时 4小时38分</span>
+</div>
+</div>
+<!-- 节点 2 -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-6 sm:-left-8 mt-1.5 w-3.5 h-3.5 rounded-full bg-secondary ring-4 ring-secondary/20"></div>
+<div class="flex-1 bg-surface-container-low rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">19:45 · 上海出发</span>
+<p class="font-body-md text-body-md text-on-surface font-medium">阿泽乘 G7375 次高铁从上海虹桥出发</p>
+</div>
+<span class="font-label-sm text-label-sm text-outline">历时 58分钟</span>
+</div>
+</div>
+<!-- 节点 3 -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-6 sm:-left-8 mt-1.5 w-3.5 h-3.5 rounded-full bg-secondary-container"></div>
+<div class="flex-1 bg-surface-container-low rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">20:43 · 先到</span>
+<p class="font-body-md text-body-md text-on-surface font-medium">阿泽抵达杭州东站，前往星巴克等候</p>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-outline">等待25分钟</span>
+</div>
+</div>
+<!-- 节点 4 (关键汇合) -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-6 sm:-left-8 mt-1 w-4 h-4 rounded-full bg-primary-container ring-4 ring-primary-fixed"></div>
+<div class="flex-1 bg-primary/10 rounded-xl p-4">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">celebration</span>
+<span class="font-title-sm text-title-sm text-primary font-bold">21:08 · 正式会合！</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">小林抵达杭州东站，两人集合完毕，开启 46 小时周末同城漫游！</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 两人具体交通车次卡片 (双栏卡片) -->
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-4">往返交通推荐匹配</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- 小林交通 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">小林 (北京 ⇄ 杭州)</h4>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">往返交通 ¥1,252</span>
+</div>
+<div class="space-y-3 font-body-sm text-body-sm">
+<div class="bg-surface-container-low rounded-xl p-3">
+<div class="flex justify-between font-semibold text-on-surface mb-1">
+<span>去程 · 5月16日(周五) G39</span>
+<span>¥626 (二等座)</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">北京南 18:30 ➔ 杭州东 21:08 (4h38m 直达)</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3">
+<div class="flex justify-between font-semibold text-on-surface mb-1">
+<span>返程 · 5月18日(周日) G40</span>
+<span>¥626 (二等座)</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">杭州东 19:35 ➔ 23:55 北京南 (4h20m 直达)</div>
+</div>
+</div>
+</div>
+<!-- 阿泽交通 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">阿泽 (上海 ⇄ 杭州)</h4>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">往返交通 ¥146</span>
+</div>
+<div class="space-y-3 font-body-sm text-body-sm">
+<div class="bg-surface-container-low rounded-xl p-3">
+<div class="flex justify-between font-semibold text-on-surface mb-1">
+<span>去程 · 5月16日(周五) G7375</span>
+<span>¥73 (二等座)</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">上海虹桥 19:45 ➔ 杭州东 20:43 (58m 直达)</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3">
+<div class="flex justify-between font-semibold text-on-surface mb-1">
+<span>返程 · 5月18日(周日) G7376</span>
+<span>¥73 (二等座)</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">杭州东 19:30 ➔ 20:28 上海虹桥 (58m 直达)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 推荐下榻住宿卡片 -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 sm:p-7 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">hotel</span>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">会合下榻建议</h3>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">房型与最终报价待选定</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-5 items-stretch">
+<div class="w-full sm:w-56 h-40 rounded-2xl bg-cover bg-center shrink-0" data-alt="Boutique modern hotel twin room interior in Hangzhou, minimalist aesthetic with clean linen, warm wood accents and ambient bedside lighting overlooking city greenery." style="background-image: url('assets/photo-3.jpg')"></div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">杭州西湖漫居度假酒店 (凤起路地铁站店)</h4>
+<span class="text-primary font-bold font-title-sm">约 ¥720 /晚</span>
+</div>
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md mb-2">
+<span class="material-symbols-outlined text-[16px]">star</span>
+<span>4.8 分 · 舒适高口碑 · 距西湖仅800米</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                交通便利：杭州东站乘坐地铁1号线直达凤起路，出站步行3分钟。双床房空间宽敞，方便两人整理与休息。
+              </p>
+</div>
+<div class="flex items-center gap-2 pt-3">
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-outline">含双人早餐</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-outline">免费行李寄存</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-outline">近地铁口</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 推荐行程游玩卡片 -->
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-4">推荐相聚漫游路线</h3>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">DAY 1 · 周五晚</span>
+<h5 class="font-title-sm text-title-sm text-on-surface font-semibold mt-1 mb-2">东站会合与深夜消夜</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">21:10 集合 ➔ 打车入住酒店 ➔ 胜利河美食街小酌闲聊</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">DAY 2 · 周六全天</span>
+<h5 class="font-title-sm text-title-sm text-on-surface font-semibold mt-1 mb-2">西湖漫步与龙井问茶</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">清晨茅家埠避开人潮 ➔ 龙井茶园午后品茗 ➔ 傍晚骑行杨公堤</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">DAY 3 · 周日下午</span>
+<h5 class="font-title-sm text-title-sm text-on-surface font-semibold mt-1 mb-2">御街文创与告别返程</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">南宋御街闲逛选伴手礼 ➔ 18:30 抵达东站从容返程</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 底部操作悬浮栏 -->
+<div class="fixed bottom-0 inset-x-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 py-3 flex items-center justify-between gap-3">
+<button class="px-4 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-1.5 transition-colors" onclick="switchView(3)" type="button">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>返回比较</span>
+</button>
+<div class="flex items-center gap-2.5">
+<button class="px-4.5 py-2.5 rounded-xl bg-secondary-fixed text-on-secondary-fixed font-body-sm text-body-sm font-semibold hover:bg-secondary-fixed-dim transition-colors flex items-center gap-1.5 shadow-sm" id="save-btn" onclick="saveCurrentPlan()" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+<span>保存至「我的方案」</span>
+</button>
+<button class="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold transition-all flex items-center gap-1.5 shadow-md" onclick="exportPlanImage()" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>导出行程图片</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- VIEW 5: 我的方案 (Saved Plans) -->
+<!-- ========================================== -->
+<section class="hidden w-full flex flex-col items-center py-10 px-4 sm:px-6 lg:px-12 transition-opacity duration-300" id="view-5">
+<div class="max-w-5xl w-full">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">我的聚会规划</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">随时调取与异地好友共同拟定的聚会备忘录</p>
+</div>
+<button class="px-4 py-2 rounded-xl bg-primary text-on-primary font-body-sm text-body-sm font-medium flex items-center gap-1.5 shadow-sm" onclick="switchView(1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>新建聚会规划</span>
+</button>
+</div>
+<!-- 方案卡片列表 -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- 方案 1 (刚刚保存的杭州方案) -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 shadow-md flex flex-col justify-between relative group">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-semibold">进行中 · 2人</span>
+<span class="font-label-sm text-label-sm text-outline">保存于 10分钟前</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-2">杭州双人初夏周末聚</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+              出发地：北京 (小林) ＋ 上海 (阿泽)<br/>
+              日期：2025年5月16日 - 5月18日 (2晚3天)
+            </p>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between font-label-md text-label-md mb-4">
+<span>会合地：<strong>杭州 (高铁直达)</strong></span>
+<span class="text-primary font-semibold">有效停留 46h</span>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between border-t border-surface-container-high/40">
+<button class="font-body-sm text-body-sm text-primary font-semibold hover:underline flex items-center gap-1" onclick="switchView(4)" type="button">
+<span>查看详情</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="copyShareLink()" type="button">
+                复制链接
+              </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="switchView(1)" type="button">
+                再编辑
+              </button>
+</div>
+</div>
+</div>
+<!-- 方案 2 -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 shadow-md flex flex-col justify-between relative group">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">历史拟定 · 3人</span>
+<span class="font-label-sm text-label-sm text-outline">保存于 3天前</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mb-2">成都中秋三友聚会方案</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+              出发地：北京 + 深圳 + 武汉<br/>
+              日期：2025年9月15日 - 9月17日 (中秋假)
+            </p>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between font-label-md text-label-md mb-4">
+<span>会合地：<strong>成都 (天府/双流机场)</strong></span>
+<span class="text-on-surface font-semibold">有效停留 40h</span>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between border-t border-surface-container-high/40">
+<button class="font-body-sm text-body-sm text-on-surface-variant font-medium hover:underline flex items-center gap-1" onclick="alert('已载入成都三友规划归档数据')" type="button">
+<span>查看详情</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="copyShareLink()" type="button">
+                复制链接
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 轻量交互控制脚本 -->
+
+</div></main><footer class="w-full bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)] mt-auto"><div class="max-w-7xl mx-auto px-6 lg:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-4"><div class="flex flex-col items-center md:items-start gap-1"><p class="font-title-sm text-title-sm text-primary font-medium tracking-tight">一起到 · TogetherArrival</p><p class="font-body-sm text-body-sm text-on-surface-variant">让身处异地的朋友，轻松找到最合适的相聚之城</p></div><div class="flex items-center gap-6 font-label-md text-label-md text-on-surface-variant"><span>© 2026 一起到. All rights reserved.</span><a class="hover:text-primary transition-colors" data-path="help" href="#">服务协议与隐私</a></div></div></footer></body></html>

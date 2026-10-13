@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.wrangler/
+.env*
+.dev.vars*
+.cache/
+outputs/
+__pycache__/
+*.pyc
+*.tsbuildinfo
+.DS_Store
+*.mov
+*.mp4

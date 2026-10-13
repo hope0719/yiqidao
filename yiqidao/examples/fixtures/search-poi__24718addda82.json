@@ -1,0 +1,20 @@
+{
+  "endpoint": "search-poi",
+  "params": {
+    "city_name": "杭州"
+  },
+  "recorded_at": "2026-10-10T12:00:00+08:00",
+  "ok": true,
+  "empty": false,
+  "failure": null,
+  "failure_kind": null,
+  "raw_message": "SYNTHETIC TEST DATA",
+  "system_message": null,
+  "items": [
+    {
+      "name": "虚构示例景点",
+      "cityName": "杭州",
+      "price": null
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "endpoint": "search-flight",
+  "params": {
+    "origin": "上海",
+    "destination": "杭州",
+    "dep_date": "2026-10-20",
+    "sort_type": 3
+  },
+  "recorded_at": "2026-10-10T12:00:00+08:00",
+  "ok": true,
+  "empty": false,
+  "failure": null,
+  "failure_kind": null,
+  "raw_message": "SYNTHETIC TEST DATA",
+  "system_message": null,
+  "items": [
+    {
+      "ticketPrice": "400",
+      "totalDuration": "120",
+      "jumpUrl": null,
+      "journeys": [
+        {
+          "journeyType": "直达",
+          "segments": [
+            {
+              "marketingTransportNo": "DEMO001",
+              "marketingTransportName": "虚构测试班次",
+              "depCityName": "上海",
+              "arrCityName": "杭州",
+              "depDateTime": "2026-10-20 08:00:00",
+              "arrDateTime": "2026-10-20 10:00:00",
+              "duration": "120"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
