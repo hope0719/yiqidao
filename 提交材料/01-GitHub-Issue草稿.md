@@ -1,5 +1,3 @@
-<!-- 提交前：确认团队与唯一主要提交人；补 GitHub 仓库链接；上传图片替换相对路径；视频可稍后补。 -->
-<!-- Issue 标题：【2026飞猪AI旅行创新大赛】一起到——多人异地会合旅行助手 -->
 
 ## 参赛项目名称
 
@@ -39,13 +37,13 @@
 
 以下为实际运行截图。已知金额不包含未确认的整房住宿、餐饮、门票和接驳等支出。
 
-![填写条件](截图/02-填写条件.png)
-![杭州与黄山比较](截图/03-杭州黄山比较.png)
-![杭州交通详情](截图/04-杭州交通详情上.png)
-![另一位成员交通及景点](截图/05-杭州交通详情下.png)
-![导出会合方案](截图/06-导出行程.png)
+![填写条件](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/02-%E5%A1%AB%E5%86%99%E6%9D%A1%E4%BB%B6.png)
+![杭州与黄山比较](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/03-%E6%9D%AD%E5%B7%9E%E9%BB%84%E5%B1%B1%E6%AF%94%E8%BE%83.png)
+![杭州交通详情](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/04-%E6%9D%AD%E5%B7%9E%E4%BA%A4%E9%80%9A%E8%AF%A6%E6%83%85%E4%B8%8A.png)
+![另一位成员交通及景点](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/05-%E6%9D%AD%E5%B7%9E%E4%BA%A4%E9%80%9A%E8%AF%A6%E6%83%85%E4%B8%8B.png)
+![导出会合方案](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/06-%E5%AF%BC%E5%87%BA%E8%A1%8C%E7%A8%8B.png)
 
-查询进度辅助图：`截图/01-查询进度.png`。
+![查询进度](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/01-%E6%9F%A5%E8%AF%A2%E8%BF%9B%E5%BA%A6.png)
 
 演示视频：https://github.com/hope0719/yiqidao/releases/tag/demo-v1
 
@@ -71,3 +69,4 @@
 接真实链路时遇到过 FlyAI 429。失败会显示失败或暂停，不用演示数据替代真实结果；后续经授权配置正式凭证完成网页闭环验收。
 
 为控制体验成本，网站限制真实任务数和并发、每次任务的旅行查询规模。普通页面访问和已有方案查看不会发起模型规划；重新发起真实任务会消耗调用额度。密钥保存在服务端秘密配置中，不进入公开代码或截图。
+
