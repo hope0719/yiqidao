@@ -33,6 +33,14 @@
 
 输入页自然语言框目前使用本地规则识别城市和预算，日期与其他条件由用户确认，未把它描述成模型语义解析。
 
+### 百炼控制台配置截图
+
+“一起到”智能体列表显示 v4、Qwen3.8-Flash；环境列表展示云端运行环境。以下为配置截图。
+
+![百炼 Managed Agent 智能体配置](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/07-%E7%99%BE%E7%82%BC%E6%99%BA%E8%83%BD%E4%BD%93%E9%85%8D%E7%BD%AE.png)
+
+![百炼云端运行环境](https://raw.githubusercontent.com/hope0719/yiqidao/main/%E6%8F%90%E4%BA%A4%E6%9D%90%E6%96%99/%E6%88%AA%E5%9B%BE/08-%E7%99%BE%E7%82%BC%E4%BA%91%E7%AB%AF%E7%8E%AF%E5%A2%83.png)
+
 ## 效果展示
 
 以下为实际运行截图。已知金额不包含未确认的整房住宿、餐饮、门票和接驳等支出。
